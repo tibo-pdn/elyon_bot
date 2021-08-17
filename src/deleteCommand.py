@@ -1,6 +1,6 @@
 from config.db import cursor, connection
 
-async def deleteCommand(message, argv):
+async def deleteCommand(message, argv, client):
     print("Delete command")
 
     

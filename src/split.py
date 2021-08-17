@@ -16,13 +16,13 @@ commands = {
     '--help' : helpCommand
 }
 
-async def split_args(message, argv) :
+async def split_args(message, argv, client) :
     if len(argv) < 2:
         await message.channel.send("No command")
         return -1
     for key, value in commands.items():
         if argv[1] == key:
-            await commands[key](message, argv)
+            await commands[key](message, argv, client)
             return 0
     await message.channel.send("Wrong command")
     return -1

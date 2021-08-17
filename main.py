@@ -20,6 +20,6 @@ async def on_message(message):
         argv = message.content.split(' ')
         if argv[0] == '&el':
 
-            await split_args(message, argv)
+            await split_args(message, argv, client)
 
 client.run(token)

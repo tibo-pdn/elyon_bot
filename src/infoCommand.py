@@ -1,6 +1,6 @@
 from config.db import cursor, connection
 
-async def infoCommand(message, array):
+async def infoCommand(message, argv, client):
     print("Info command")
     cursor.execute("SELECT uuid FROM user WHERE uuid = '" + str(message.author.id) + "';")
     result = cursor.fetchone()
