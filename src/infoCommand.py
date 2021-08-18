@@ -1,3 +1,5 @@
+import sqlparse
+
 from config.db import cursor, connection
 
 async def infoCommand(message, argv, client):
