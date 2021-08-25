@@ -1,3 +1,5 @@
+DROP DATABASE IF EXISTS elyon_db;
+
 CREATE DATABASE IF NOT EXISTS elyon_db;
 
 USE elyon_db;
