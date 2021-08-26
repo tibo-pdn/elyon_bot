@@ -6,83 +6,84 @@ async def addCommand(message, argv, client):
     print("Add command")
 
     if result is None :
-        await message.channel.send("What is your main character name")
+        print(message.author)
+        await message.channel.send(f"{message.author.mention} What is your main character name?")
         name = await client.wait_for('message')
         if message.author == name.author :
-            await message.channel.send('name done!')
+           print("name done!")
         else :
             await message.channel.send('error wrong user aborting')
             return 0
 
-        await message.channel.send("What is your main character gearscore")
+        await message.channel.send(f"{message.author.mention} What is your main character gearscore?")
         u_gear = await client.wait_for('message')
         if message.author == u_gear.author :
-            await message.channel.send('gs done!')
+            print('gs done!')
         else :
             await message.channel.send('error wrong user aborting')
             return 0
 
-        await message.channel.send("What is your main character level")
+        await message.channel.send(f"{message.author.mention} What is your main character level?")
         u_level = await client.wait_for('message')
         if message.author == u_level.author :
-            await message.channel.send('lvl done!')
+            print('lvl done!')
         else :
             await message.channel.send('error wrong user aborting')
             return 0
 
-        await message.channel.send("What is your main character number of skill points")
+        await message.channel.send(f"{message.author.mention} What is your main character number of skill points?")
         u_skill = await client.wait_for('message')
         if message.author == u_skill.author :
-            await message.channel.send('sp done!')
+            print('sp done!')
         else :
             await message.channel.send('error wrong user aborting')
             return 0
-    
-        await message.channel.send("What is your main character Assault rune number")
+
+        await message.channel.send(f"{message.author.mention} What is your main character Assault rune number?")
         r_red = await client.wait_for('message')
         if message.author == r_red.author :
-            await message.channel.send('red rune done')
+            print('red rune done')
         else :
             await message.channel.send('error wrong user aborting')
             return 0
-    
-        await message.channel.send("What is your main character Control rune number")
+
+        await message.channel.send(f"{message.author.mention} What is your main character Control rune number?")
         r_orange = await client.wait_for('message')
         if message.author == r_orange.author :
-            await message.channel.send('orange rune done')
+            print('orange rune done')
         else :
             await message.channel.send('error wrong user aborting')
             return 0
-    
-        await message.channel.send("What is your main character Fate rune number")
+
+        await message.channel.send(f"{message.author.mention} What is your main character Fate rune number?")
         r_yellow = await client.wait_for('message')
         if message.author == r_yellow.author :
-            await message.channel.send('yellow rune done')
+            print('yellow rune done')
         else :
             await message.channel.send('error wrong user aborting')
             return 0
     
-        await message.channel.send("What is your main character Protection rune number")
+        await message.channel.send(f"{message.author.mention} What is your main character Protection rune number?")
         r_blue = await client.wait_for('message')
         if message.author == r_blue.author :
-            await message.channel.send('blue rune done')
+            print('blue rune done')
         else :
             await message.channel.send('error wrong user aborting')
             return 0
     
-        await message.channel.send("What is your main character Support rune number")
+        await message.channel.send(f"{message.author.mention} What is your main character Support rune number?")
         r_green = await client.wait_for('message')
         if message.author == r_green.author :
-            await message.channel.send('green rune done')
+            print('green rune done')
         else :
             await message.channel.send('error wrong user aborting')
             return 0
     
-        await message.channel.send("What is your main character Awakening rune number")
+        await message.channel.send(f"{message.author.mention} What is your main character Awakening rune number?")
         r_purple = await client.wait_for('message')
         if message.author == r_purple.author :
-            await message.channel.send('purple rune done')
-            await message.channel.send('Registration done')
+            print('purple rune done')
+            await message.channel.send(f'{message.author.mention} Registration done')
         else :
             await message.channel.send('error wrong user aborting')
             return 0
