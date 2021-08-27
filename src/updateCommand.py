@@ -25,19 +25,16 @@ async def updateCommand(message, argv, client):
             attribute = update[key]
             updated_value = argv[3]
             if key == 'name':
-                if message.author == r_orange.author :
-                    cursor.execute("UPDATE user SET " + str(attribute) + " = '" + str(updated_value) + "' WHERE uuid = '" + str(message.author.id) + "';")
-                else :
-                    await message.channel.send('error wrong user aborting')
-                    return 0
+                cursor.execute("UPDATE user SET " + str(attribute) + " = '" + str(updated_value) + "' WHERE uuid = '" + str(message.author.id) + "';")
             else:
-                if message.author == r_orange.author :
-                    cursor.execute("UPDATE user SET " + str(attribute) + " = " + str(updated_value) + " WHERE uuid = '" + str(message.author.id) + "';")
-                else :
-                    await message.channel.send('error wrong user aborting')
-                    return 0
-
-            connection.commit()
+                tmp = updated_value
+                try :
+                    updated_value = int(updated_value)
+                except ValueError :
+                    await message.channel.send("Wrong input type, number expected.")
+                    return -1
+                cursor.execute("UPDATE user SET " + str(attribute) + " = " + str(updated_value) + " WHERE uuid = '" + str(message.author.id) + "';")
+                connection.commit()
             return 0
     await message.channel.send("Wrong keyword")
     print("Update command")
