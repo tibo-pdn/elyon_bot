@@ -18,6 +18,7 @@ async def addCommand(message, argv, client):
         await message.channel.send(f"{message.author.mention} What is your main character gearscore?")
         u_gear = await client.wait_for('message')
         if message.author == u_gear.author :
+            tmp = u_gear
             while not isinstance(u_gear, int) :
                 if message.author == u_gear.author :
                     try :
@@ -40,6 +41,7 @@ async def addCommand(message, argv, client):
         await message.channel.send(f"{message.author.mention} What is your main character level?")
         u_level = await client.wait_for('message')
         if message.author == u_level.author :
+            tmp= u_level
             while not isinstance(u_level, int) :
                 if message.author == u_level.author :
                     try :
@@ -62,6 +64,7 @@ async def addCommand(message, argv, client):
         await message.channel.send(f"{message.author.mention} What is your main character number of skill points?")
         u_skill = await client.wait_for('message')
         if message.author == u_skill.author :
+            tmp = u_skill
             while not isinstance(u_skill, int) :
                 if message.author == u_skill.author :
                     try :
@@ -84,6 +87,7 @@ async def addCommand(message, argv, client):
         await message.channel.send(f"{message.author.mention} What is your main character Assault rune number?")
         r_red = await client.wait_for('message')
         if message.author == r_red.author :
+            tmp = r_red
             while not isinstance(r_red, int) :
                 if message.author == r_red.author :
                     try :
@@ -106,6 +110,7 @@ async def addCommand(message, argv, client):
         await message.channel.send(f"{message.author.mention} What is your main character Control rune number?")
         r_orange = await client.wait_for('message')
         if message.author == r_orange.author :
+            tmp = r_orange
             while not isinstance(r_orange, int) :
                 if message.author == r_orange.author :
                     try :
@@ -128,6 +133,7 @@ async def addCommand(message, argv, client):
         await message.channel.send(f"{message.author.mention} What is your main character Fate rune number?")
         r_yellow = await client.wait_for('message')
         if message.author == r_yellow.author :
+            tmp = r_yellow
             while not isinstance(r_yellow, int) :
                 if message.author == r_yellow.author :
                     try :
@@ -150,6 +156,7 @@ async def addCommand(message, argv, client):
         await message.channel.send(f"{message.author.mention} What is your main character Support rune number?")
         r_green = await client.wait_for('message')
         if message.author == r_green.author :
+            tmp = r_green
             while not isinstance(r_green, int) :
                 if message.author == r_green.author :
                     try :
@@ -172,6 +179,7 @@ async def addCommand(message, argv, client):
         await message.channel.send(f"{message.author.mention} What is your main character Protection rune number?")
         r_blue = await client.wait_for('message')
         if message.author == r_blue.author :
+            tmp = r_blue
             while not isinstance(r_blue, int) :
                 if message.author == r_blue.author :
                     try :
@@ -194,6 +202,7 @@ async def addCommand(message, argv, client):
         await message.channel.send(f"{message.author.mention} What is your main character Awakening rune number?")
         r_purple = await client.wait_for('message')
         if message.author == r_purple.author :
+            tmp = r_purple
             while not isinstance(r_purple, int) :
                 if message.author == r_purple.author :
                     try :
@@ -212,6 +221,7 @@ async def addCommand(message, argv, client):
         else :
             await message.channel.send('error wrong user aborting')
             return 0
+        tmp = 0
         await message.channel.send(f'{message.author.mention} Registration done')
         cursor.execute("INSERT INTO user (uuid, name, u_gear, u_level, u_skill, r_red, r_orange, r_yellow, r_blue, r_green, r_purple) VALUES ('" + str(message.author.id) + "', '" + name.content +"', " + u_gear.content + ", " + u_level.content + ", " + u_skill.content + ", " + r_red.content + ", " + r_orange.content + ", " + r_yellow.content + ", " + r_blue.content + "," + r_green.content + ", " + r_purple.content + ");")
         connection.commit()
