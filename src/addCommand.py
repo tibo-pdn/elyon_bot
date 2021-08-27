@@ -23,8 +23,6 @@ async def addCommand(message, argv, client):
                 if message.author == u_gear.author :
                     try :
                         u_gear = int(u_gear.content)
-                        if u_gear == int :
-                            print('ok')
                     except ValueError :
                         await message.channel.send('error wrong input retry')
                         u_gear = await client.wait_for('message')
@@ -46,8 +44,6 @@ async def addCommand(message, argv, client):
                 if message.author == u_level.author :
                     try :
                         u_level = int(u_level.content)
-                        if u_level == int :
-                            print('ok')
                     except ValueError :
                         await message.channel.send('error wrong input retry')
                         u_level = await client.wait_for('message')
@@ -69,8 +65,6 @@ async def addCommand(message, argv, client):
                 if message.author == u_skill.author :
                     try :
                         u_skill = int(u_skill.content)
-                        if u_skill == int :
-                            print('ok')
                     except ValueError :
                         await message.channel.send('error wrong input retry')
                         u_skill = await client.wait_for('message')
@@ -92,8 +86,6 @@ async def addCommand(message, argv, client):
                 if message.author == r_red.author :
                     try :
                         r_red = int(r_red.content)
-                        if r_red == int :
-                            print('ok')
                     except ValueError :
                         await message.channel.send('error wrong input retry')
                         r_red = await client.wait_for('message')
@@ -115,8 +107,6 @@ async def addCommand(message, argv, client):
                 if message.author == r_orange.author :
                     try :
                         r_orange = int(r_orange.content)
-                        if r_orange == int :
-                            print('ok')
                     except ValueError :
                         await message.channel.send('error wrong input retry')
                         r_orange = await client.wait_for('message')
@@ -138,8 +128,6 @@ async def addCommand(message, argv, client):
                 if message.author == r_yellow.author :
                     try :
                         r_yellow = int(r_yellow.content)
-                        if r_yellow == int :
-                            print('ok')
                     except ValueError :
                         await message.channel.send('error wrong input retry')
                         r_yellow = await client.wait_for('message')
@@ -161,8 +149,6 @@ async def addCommand(message, argv, client):
                 if message.author == r_green.author :
                     try :
                         r_green = int(r_green.content)
-                        if r_green == int :
-                            print('ok')
                     except ValueError :
                         await message.channel.send('error wrong input retry')
                         r_green = await client.wait_for('message')
@@ -184,8 +170,6 @@ async def addCommand(message, argv, client):
                 if message.author == r_blue.author :
                     try :
                         r_blue = int(r_blue.content)
-                        if r_blue == int :
-                            print('ok')
                     except ValueError :
                         await message.channel.send('error wrong input retry')
                         r_blue = await client.wait_for('message')
@@ -207,8 +191,6 @@ async def addCommand(message, argv, client):
                 if message.author == r_purple.author :
                     try :
                         r_purple = int(r_purple.content)
-                        if r_purple == int :
-                            print('ok')
                     except ValueError :
                         await message.channel.send('error wrong input retry')
                         r_purple = await client.wait_for('message')
