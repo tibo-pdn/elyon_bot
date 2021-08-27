@@ -1,18 +1,18 @@
 from config.db import cursor, connection
+from datetime import datetime
 
 async def addCommand(message, argv, client):
     cursor.execute("SELECT uuid FROM user WHERE uuid = '" + str(message.author.id) + "';")
     result = cursor.fetchone()
-    print("Add command")
 
     if result is None :
-        print(message.author)
+        print("[" + str(datetime.now()) + "] : <" + str(message.author) + "> : Add Command")
         await message.channel.send(f"{message.author.mention} What is your main character name?")
         name = await client.wait_for('message')
         if message.author == name.author :
-            print("name done!")
+            print("[" + str(datetime.now()) + "] : <" + str(message.author) + "> : name done!")
         else :
-            await message.channel.send('error wrong user aborting')
+            await message.channel.send(':x:error wrong user aborting')
             return 0
 
         await message.channel.send(f"{message.author.mention} What is your main character gearscore?")
@@ -24,16 +24,16 @@ async def addCommand(message, argv, client):
                     try :
                         u_gear = int(u_gear.content)
                     except ValueError :
-                        await message.channel.send('error wrong input retry')
+                        await message.channel.send(':x:error wrong input retry')
                         u_gear = await client.wait_for('message')
                         tmp = u_gear
                 else :
-                    await message.channel.send('error wrong user aborting')
+                    await message.channel.send(':x:error wrong user aborting')
                     return 0
-            print('gs done!')
+            print("[" + str(datetime.now()) + "] : <" + str(message.author) + "> : gs done!")
             u_gear = tmp
         else :
-            await message.channel.send('error wrong user aborting')
+            await message.channel.send(':x:error wrong user aborting')
             return 0
 
         await message.channel.send(f"{message.author.mention} What is your main character level?")
@@ -45,16 +45,16 @@ async def addCommand(message, argv, client):
                     try :
                         u_level = int(u_level.content)
                     except ValueError :
-                        await message.channel.send('error wrong input retry')
+                        await message.channel.send(':x:error wrong input retry')
                         u_level = await client.wait_for('message')
                         tmp = u_level
                 else :
-                    await message.channel.send('error wrong user aborting')
+                    await message.channel.send(':x:error wrong user aborting')
                     return 0
-            print('lvl done!')
+            print("[" + str(datetime.now()) + "] : <" + str(message.author) + "> : lvl done!")
             u_level = tmp
         else :
-            await message.channel.send('error wrong user aborting')
+            await message.channel.send(':x:error wrong user aborting')
             return 0
 
         await message.channel.send(f"{message.author.mention} What is your main character number of skill points?")
@@ -66,16 +66,16 @@ async def addCommand(message, argv, client):
                     try :
                         u_skill = int(u_skill.content)
                     except ValueError :
-                        await message.channel.send('error wrong input retry')
+                        await message.channel.send(':x:error wrong input retry')
                         u_skill = await client.wait_for('message')
                         tmp = u_skill
                 else :
-                    await message.channel.send('error wrong user aborting')
+                    await message.channel.send(':x:error wrong user aborting')
                     return 0
-            print('SP done!')
+            print("[" + str(datetime.now()) + "] : <" + str(message.author) + "> : SP done!")
             u_skill = tmp
         else :
-            await message.channel.send('error wrong user aborting')
+            await message.channel.send(':x:error wrong user aborting')
             return 0
 
         await message.channel.send(f"{message.author.mention} What is your main character Assault rune number?")
@@ -87,16 +87,16 @@ async def addCommand(message, argv, client):
                     try :
                         r_red = int(r_red.content)
                     except ValueError :
-                        await message.channel.send('error wrong input retry')
+                        await message.channel.send(':x:error wrong input retry')
                         r_red = await client.wait_for('message')
                         tmp = r_red
                 else :
-                    await message.channel.send('error wrong user aborting')
+                    await message.channel.send(':x:error wrong user aborting')
                     return 0
-            print('Assault done!')
+            print("[" + str(datetime.now()) + "] : <" + str(message.author) + "> : Assault done!")
             r_red = tmp
         else :
-            await message.channel.send('error wrong user aborting')
+            await message.channel.send(':x:error wrong user aborting')
             return 0
 
         await message.channel.send(f"{message.author.mention} What is your main character Control rune number?")
@@ -108,16 +108,16 @@ async def addCommand(message, argv, client):
                     try :
                         r_orange = int(r_orange.content)
                     except ValueError :
-                        await message.channel.send('error wrong input retry')
+                        await message.channel.send(':x:error wrong input retry')
                         r_orange = await client.wait_for('message')
                         tmp = r_orange
                 else :
-                    await message.channel.send('error wrong user aborting')
+                    await message.channel.send(':x:error wrong user aborting')
                     return 0
-            print('Control done!')
+            print("[" + str(datetime.now()) + "] : <" + str(message.author) + "> : Control done!")
             r_orange = tmp
         else :
-            await message.channel.send('error wrong user aborting')
+            await message.channel.send(':x:error wrong user aborting')
             return 0
 
         await message.channel.send(f"{message.author.mention} What is your main character Fate rune number?")
@@ -129,16 +129,16 @@ async def addCommand(message, argv, client):
                     try :
                         r_yellow = int(r_yellow.content)
                     except ValueError :
-                        await message.channel.send('error wrong input retry')
+                        await message.channel.send(':x:error wrong input retry')
                         r_yellow = await client.wait_for('message')
                         tmp = r_yellow
                 else :
-                    await message.channel.send('error wrong user aborting')
+                    await message.channel.send(':x:error wrong user aborting')
                     return 0
-            print('fate done!')
+            print("[" + str(datetime.now()) + "] : <" + str(message.author) + "> : fate done!")
             r_yellow = tmp
         else :
-            await message.channel.send('error wrong user aborting')
+            await message.channel.send(':x:error wrong user aborting')
             return 0
 
         await message.channel.send(f"{message.author.mention} What is your main character Support rune number?")
@@ -150,16 +150,16 @@ async def addCommand(message, argv, client):
                     try :
                         r_green = int(r_green.content)
                     except ValueError :
-                        await message.channel.send('error wrong input retry')
+                        await message.channel.send(':x:error wrong input retry')
                         r_green = await client.wait_for('message')
                         tmp = r_green
                 else :
-                    await message.channel.send('error wrong user aborting')
+                    await message.channel.send(':x:error wrong user aborting')
                     return 0
-            print('support done!')
+            print("[" + str(datetime.now()) + "] : <" + str(message.author) + "> : support done!")
             r_green = tmp
         else :
-            await message.channel.send('error wrong user aborting')
+            await message.channel.send(':x:error wrong user aborting')
             return 0
 
         await message.channel.send(f"{message.author.mention} What is your main character Protection rune number?")
@@ -171,16 +171,16 @@ async def addCommand(message, argv, client):
                     try :
                         r_blue = int(r_blue.content)
                     except ValueError :
-                        await message.channel.send('error wrong input retry')
+                        await message.channel.send(':x:error wrong input retry')
                         r_blue = await client.wait_for('message')
                         tmp = r_blue
                 else :
-                    await message.channel.send('error wrong user aborting')
+                    await message.channel.send(':x:error wrong user aborting')
                     return 0
-            print('protection done!')
+            print("[" + str(datetime.now()) + "] : <" + str(message.author) + "> : protection done!")
             r_blue = tmp
         else :
-            await message.channel.send('error wrong user aborting')
+            await message.channel.send(':x:error wrong user aborting')
             return 0
 
         await message.channel.send(f"{message.author.mention} What is your main character Awakening rune number?")
@@ -192,19 +192,20 @@ async def addCommand(message, argv, client):
                     try :
                         r_purple = int(r_purple.content)
                     except ValueError :
-                        await message.channel.send('error wrong input retry')
+                        await message.channel.send(':x:error wrong input retry')
                         r_purple = await client.wait_for('message')
                         tmp = r_purple
                 else :
-                    await message.channel.send('error wrong user aborting')
+                    await message.channel.send(':x:error wrong user aborting')
                     return 0
-            print('Awakening done!')
+            print("[" + str(datetime.now()) + "] : <" + str(message.author) + "> : Awakening done!")
             r_purple = tmp
         else :
-            await message.channel.send('error wrong user aborting')
+            await message.channel.send(':x:error wrong user aborting')
             return 0
         tmp = 0
         await message.channel.send(f'{message.author.mention} Registration done')
+        print("[" + str(datetime.now()) + "] : <" + str(message.author) + "> : Registration done!")
         cursor.execute("INSERT INTO user (uuid, name, u_gear, u_level, u_skill, r_red, r_orange, r_yellow, r_blue, r_green, r_purple) VALUES ('" + str(message.author.id) + "', '" + name.content +"', " + u_gear.content + ", " + u_level.content + ", " + u_skill.content + ", " + r_red.content + ", " + r_orange.content + ", " + r_yellow.content + ", " + r_blue.content + "," + r_green.content + ", " + r_purple.content + ");")
         connection.commit()
         #await channel.send(channel.last_message_id)
@@ -212,6 +213,6 @@ async def addCommand(message, argv, client):
 
         #return 0
     else :
-        await message.channel.send("User registration failed : already registered")
+        await message.channel.send(":x:User registration failed : already registered")
         # return -1
 
