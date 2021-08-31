@@ -1,5 +1,6 @@
 import discord
 from config.db import cursor, connection
+from datetime import datetime
 
 client = discord.Client()
 
@@ -14,5 +15,5 @@ async def helpCommand(message, argv, client):
     embed.add_field(name=":white_small_square:&el delete me", value=":heavy_minus_sign:Removes your personnal information", inline=False)
     embed.add_field(name=":white_small_square:&el delete [ID]", value=":heavy_minus_sign:removes a user from the bot and database, *only available for admins*", inline=False)
     await message.channel.send(embed=embed)
-
+    print("[" + str(datetime.now()) + "] : <" + str(message.author) + "> : <" + str(message.content) + "> : Help Command")
     return

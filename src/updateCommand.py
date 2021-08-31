@@ -1,4 +1,5 @@
 from config.db import cursor, connection
+from datetime import datetime
 
 update = {
     'name' : 'name',
@@ -26,6 +27,7 @@ async def updateCommand(message, argv, client):
             updated_value = argv[3]
             if key == 'name':
                 cursor.execute("UPDATE user SET " + str(attribute) + " = '" + str(updated_value) + "' WHERE uuid = '" + str(message.author.id) + "';")
+                print("[" + str(datetime.now()) + "] : <" + str(message.author) + "> : <" + str(updated_value) + "> : name updated!")
             else:
                 tmp = updated_value
                 try :
@@ -34,6 +36,7 @@ async def updateCommand(message, argv, client):
                     await message.channel.send("Wrong input type, number expected.")
                     return -1
                 cursor.execute("UPDATE user SET " + str(attribute) + " = " + str(updated_value) + " WHERE uuid = '" + str(message.author.id) + "';")
+                print("[" + str(datetime.now()) + "] : <" + str(message.author) + "> : <" + str(attribute) + "> : <" + str(updated_value) + "> : updated!")
                 connection.commit()
             return 0
     await message.channel.send("Wrong keyword")

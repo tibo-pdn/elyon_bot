@@ -1,5 +1,5 @@
 import discord
-
+from datetime import datetime
 from config.db import cursor, connection
 
 def formatString(string):
@@ -41,6 +41,6 @@ async def infoCommand(message, argv, client):
     else :
         cursor.execute("SELECT uuid, name, u_gear, u_level, u_skill, r_red, r_orange, r_yellow, r_blue, r_green, r_purple FROM user WHERE uuid = '" + str(message.author.id) + "';")
         result2 = formatString(cursor.fetchone())
-        print("-->", result2)
+        print("[" + str(datetime.now()) + "] : <" + str(message.author) + "> :-->", result2)
         await printMessage(message, result2)
         return 0
