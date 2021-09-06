@@ -5,8 +5,8 @@ import asyncio
 async def addCommand(message, argv, client):
     cursor.execute("SELECT uuid FROM user WHERE uuid = '" + str(message.author.id) + "';")
     result = cursor.fetchone()
-    try :
-        if result is None :
+    if result is None :
+        try :
             print("[" + str(datetime.now()) + "] : <" + str(message.author) + "> : <" + str(message.content) + "> : Add Command")
             await message.channel.send(f"{message.author.mention} What is your main character name?")
             name = await client.wait_for('message', timeout = 7.5)
@@ -20,7 +20,7 @@ async def addCommand(message, argv, client):
             await message.channel.send(f"{message.author.mention} What is your main character class? (slayer, elem, gunner, mystic, warlord, assa)")
             u_class = await client.wait_for('message', timeout = 7.5)
             if message.author == u_class.author :
-                while u_class.content != 'slayer' and u_class.content != 'elem' and u_class.content != 'gunner' and u_class.content != 'mystic' and u_class.content != 'warlord' and u_class.content != 'assa' :
+                while u_class.content != 'slayer' and u_class.content != 'Slayer' and u_class.content != 'elem' and u_class.content != 'Elem' and u_class.content != 'gunner' and u_class.content != 'Gunner' and u_class.content != 'mystic' and u_class.content != 'Mystic' and u_class.content != 'warlord' and u_class.content != 'Warlord' and u_class.content != 'assa' and u_class.content != 'Assa':
                     if message.author == u_class.author :
                         await message.channel.send(':x:error wrong input retry')
                         print("[" + str(datetime.now()) + "] : <" + str(message.author) + "> : <" + str(u_class.content) + "> : input error!")
@@ -256,9 +256,9 @@ async def addCommand(message, argv, client):
             cursor.execute("INSERT INTO user (uuid, name, u_gear, u_level, u_skill, u_class, r_red, r_orange, r_yellow, r_blue, r_green, r_purple) VALUES ('" + str(message.author.id) + "', '" + name.content +"', " + u_gear.content + ", " + u_level.content + ", " + u_skill.content + ", '" + u_class.content + "' , " + r_red.content + ", " + r_orange.content + ", " + r_yellow.content + ", " + r_blue.content + "," + r_green.content + ", " + r_purple.content + ");")
             connection.commit()
             #await channel.send(channel.last_message_id)
-    except asyncio.TimeoutError :
-        print("[" + str(datetime.now()) + "] : <" + str(message.author) + "> : timeout")
-        return await message.channel.send('Sorry, you took too long')
+        except asyncio.TimeoutError :
+            print("[" + str(datetime.now()) + "] : <" + str(message.author) + "> : timeout")
+            return await message.channel.send('Sorry, you took too long')
         #return 0
     else :
         await message.channel.send(":x:User registration failed : already registered")

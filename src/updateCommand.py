@@ -36,8 +36,9 @@ async def updateCommand(message, argv, client):
                     await message.channel.send("Wrong input type, number expected.")
                     return -1
                 cursor.execute("UPDATE user SET " + str(attribute) + " = " + str(updated_value) + " WHERE uuid = '" + str(message.author.id) + "';")
+                print("Update command")
                 print("[" + str(datetime.now()) + "] : <" + str(message.author) + "> : <" + str(attribute) + "> : <" + str(updated_value) + "> : updated!")
-                connection.commit()
+            connection.commit()
             return 0
     await message.channel.send("Wrong keyword")
     print("Update command")

@@ -1,0 +1,14 @@
+Bot is ready !
+Delete command
+[2021-09-03 18:39:27.543634] : <Sevilyoti#7318> : <&el help> : Help Command
+[2021-09-03 18:39:49.732218] : <Sevilyoti#7318> : <&el add> : Add Command
+[2021-09-03 18:39:53.920607] : <Sevilyoti#7318> : <ZeroTsu#2317> : user error!
+[2021-09-03 18:40:12.393290] : <Mous#9139> : <&el add> : Add Command
+[2021-09-03 18:40:18.169028] : <Mous#9139> : <Mous> : name done!
+[2021-09-03 18:40:21.599870] : <Mous#9139> : <Geleo#8140> : user error!
+[2021-09-03 18:40:36.090952] : <Geleo#8140> : <&el add> : Add Command
+[2021-09-03 18:40:37.197942] : <Geleo#8140> : <Geleo> : name done!
+[2021-09-03 18:40:39.175979] : <Geleo#8140> : <slayere> : input error!
+[2021-09-03 18:40:41.825412] : <Geleo#8140> :  <slayer> : class done!
+[2021-09-03 18:40:44.201842] : <Geleo#8140> : <stop> : input error!
+[2021-09-03 18:40:44.824364] : <Geleo#8140> : <Mous#9139> : user error!
