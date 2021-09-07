@@ -2,7 +2,84 @@ from config.db import cursor, connection
 from datetime import datetime
 import asyncio
 
+activeAddingUsers = {}
+
+# [sqlname, type, asking sentence, metadata]
+USERINFOS_LIST = [
+    ["u_name", "string", "entre ton nom batard"],
+    ["u_level", "int", "entre ton level de noob (0-255)", 0, 255],
+    ["class", "choice", "C kwa ta klasss ? (slayer/hunt/chepa)", ["slayer", "hunt", "chepa"]],
+    ["gear", "int", "entre to gear", 0, 1000]
+]
+
+class UserAdderState:
+    def __init__(self, authorID):
+        self.authorID = authorID
+        self.infos = []
+    
+    async def addInfoFromMessage(self, message):
+        # Check incoming info
+        currentInfo = USERINFOS_LIST[len(self.infos)]
+        # TODO: Sanitize input information
+        sanitized = ""
+        if currentInfo[1] == "string":
+            # TODO: Verify that string ONLY contains letters and not special characters
+            sanitized = "'" + message.content + "'"
+        elif currentInfo[1] == "int":
+            # TODO: Try to parse string to int
+            # Verify it is into bounds of currentInfo[3] and currentInfo[4]
+            # And save the int as string in infos
+            sanitized = message.content
+        elif currentInfo[1] == "choice":
+            if message.content in currentInfo[3]:
+                sanitized = "'" + message.content + "'"
+            else:
+                await message.channel.send("C pa dan " + str(currentInfo[3]))
+                return True
+        else:
+            await message.channel.send("Sorry on code avec des noobs")
+        # Add info to our table
+        self.infos.append(sanitized)
+        if len(self.infos) >= len(USERINFOS_LIST):
+            # use all infos to add user in db
+            self.saveToDB()
+            del activeAddingUsers[self.authorID]
+            return True
+        await self.printNextExpectation(message.channel)
+        return True
+    
+    async def printNextExpectation(self, channel):
+        currentInfo = USERINFOS_LIST[len(self.infos)]
+        await channel.send("> " + currentInfo[2])
+    
+    def saveToDB(self):
+        # "INSERT INTO user (uuid,"
+        sqlReq = "INSERT INTO user(uuid, "
+        # name, u_gear, u_level, u_skill, u_class, r_red, r_orange, r_yellow, r_blue, r_green, r_purple
+        sqlReq += ', '.join(map(lambda v: v[0], USERINFOS_LIST))
+        # ") VALUES ('" + str(message.author.id) + "',
+        sqlReq += ") VALUES ('" + str(self.authorID) + "', "
+        # '" + name.content +"', " + u_gear.content + ", " + u_level.content + ", " + u_skill.content + ", '" + u_class.content + "' , " + r_red.content + ", " + r_orange.content + ", " + r_yellow.content + ", " + r_blue.content + "," + r_green.content + ", " + r_purple.content + 
+        sqlReq += ', '.join(self.infos)
+        # ");")
+        sqlReq += ");"
+        print("on injecte: " + sqlReq)
+        # TODO: uncomment it
+        # cursor.execute(sqlReq)
+        # connection.commit()
+
+async def handleMessageForAddingUser(message):
+    if message.author.id in activeAddingUsers.keys():
+        return await activeAddingUsers[message.author.id].addInfoFromMessage(message)
+    return False
+
+# &el add
 async def addCommand(message, argv, client):
+    newUser = UserAdderState(message.author.id)
+    activeAddingUsers[message.author.id] = newUser
+    await newUser.printNextExpectation(message.channel)
+
+async def addCommand_old(message, argv, client):
     cursor.execute("SELECT uuid FROM user WHERE uuid = '" + str(message.author.id) + "';")
     result = cursor.fetchone()
     if result is None :
