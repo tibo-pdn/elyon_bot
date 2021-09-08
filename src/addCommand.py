@@ -1,6 +1,7 @@
 from config.db import cursor, connection
 from datetime import datetime
 import asyncio
+from .infoCommand import infoCommand
 
 activeAddingUsers = {}
 
@@ -19,53 +20,58 @@ USERINFOS_LIST = [
     ["r_purple", "int", "What is your main character Awakening rune number ", 0, 100]
 ]
 
+def sanitizeUserInfo(info, value):
+    if info[1] == "string":
+        if value.isalnum() == False:
+            return ["", "Wrong input retry only letters and numbers"]
+        return ["'" + value + "'", None]
+
+    elif info[1] == "int":           
+        try:
+            contentint = int(value)
+        except ValueError :
+            return ["", "Wrong input retry only numbers"]
+        if contentint < info[3] or contentint >= info[4]:
+            return ["", "Wrong input out of range"]
+        return [str(contentint), None]
+
+    elif info[1] == "choice":
+        lowered=value.lower()
+        shortcuts = {
+            "elementalist": "elem",
+            "assassin": "assa",
+            "war": "warlord"
+        }
+        if lowered in shortcuts.keys():
+            lowered = shortcuts[lowered]
+        if lowered in info[3]:
+            return ["'" + lowered + "'", None]
+        else:
+            return ["", "That class is not in the game " + str(info[3])]
+    else:
+        return [value, "Sorry on code avec des noobs"]
+
+
 class UserAdderState:
-    def __init__(self, authorID):
+    def __init__(self, authorID, client):
         self.authorID = authorID
         self.infos = []
+        self.client = client
     
     async def addInfoFromMessage(self, message):
         # Check incoming info
         currentInfo = USERINFOS_LIST[len(self.infos)]
-        sanitized = ""
-        if currentInfo[1] == "string":
-            if message.content.isalnum() == False:
-                await message.channel.send(":x:Wrong input retry only letters and numbers")
-                return True
-            sanitized = "'" + message.content + "'"
+        sanitized, error = sanitizeUserInfo(currentInfo, message.content)
+        if error != None:
+            await message.channel.send(":x: " + error)
+            return True
 
-        elif currentInfo[1] == "int":           
-            try :
-                contentint = int(message.content)
-            except ValueError : 
-                await message.channel.send(":x:Wrong input retry only numbers")
-                return True   
-            if contentint < currentInfo[3] or contentint >= currentInfo[4]  :
-                await message.channel.send(":x:Wrong input out of range")
-                return True
-            sanitized = str(contentint)
-
-        elif currentInfo[1] == "choice":
-            lowered=message.content.lower()
-            shortcuts = {
-                "elementalist": "elem",
-                "assassin": "assa",
-                "war": "warlord"
-            }
-            if lowered in shortcuts.keys():
-                lowered = shortcuts[lowered]
-            if lowered in currentInfo[3]:
-                sanitized = "'" + lowered + "'"
-            else:
-                await message.channel.send(":x:That class is not in the game" + str(currentInfo[3]))
-                return True
-        else:
-            await message.channel.send("Sorry on code avec des noobs")
         # Add info to our table
         self.infos.append(sanitized)
         if len(self.infos) >= len(USERINFOS_LIST):
             # use all infos to add user in db
             self.saveToDB()
+            await infoCommand(message, ["&el", "info"], self.client)
             del activeAddingUsers[self.authorID]
             return True
         await self.printNextExpectation(message.channel, message.author)
@@ -98,7 +104,8 @@ async def handleMessageForAddingUser(message):
 
 # &el add
 async def addCommand(message, argv, client):
-    newUser = UserAdderState(message.author.id)
+    # verify not existing
+    newUser = UserAdderState(message.author.id, client)
     activeAddingUsers[message.author.id] = newUser
     await newUser.printNextExpectation(message.channel, message.author)
 
