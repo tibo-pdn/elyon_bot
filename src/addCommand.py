@@ -6,10 +6,17 @@ activeAddingUsers = {}
 
 # [sqlname, type, asking sentence, metadata]
 USERINFOS_LIST = [
-    ["u_name", "string", "entre ton nom batard"],
-    ["u_level", "int", "entre ton level de noob (0-255)", 0, 255],
-    ["class", "choice", "C kwa ta klasss ? (slayer/hunt/chepa)", ["slayer", "hunt", "chepa"]],
-    ["gear", "int", "entre to gear", 0, 1000]
+    ["name", "string", "What is your main character name"],
+    ["u_gear", "int", "What is your main character Item Level", 0, 1500],
+    ["u_level", "int", "What is your main character level", 0, 255],
+    ["u_skill", "int", "What is your main character number of skill points", 0, 1500],
+    ["u_class", "choice", "What is your main character class (slayer/elem/assa/warlord/gunner/mystic)", ["slayer", "elem", "assa", "warlord", "gunner", "mystic"]],
+    ["r_red", "int", "What is your main character Assault rune number ", 0, 100],
+    ["r_orange", "int", "What is your main character Control rune number ", 0, 100],
+    ["r_yellow", "int", "What is your main character Fate rune number ", 0, 100],
+    ["r_green", "int", "What is your main character Support rune number ", 0, 100],
+    ["r_blue", "int", "What is your main character Protection rune number ", 0, 100],
+    ["r_purple", "int", "What is your main character Awakening rune number ", 0, 100]
 ]
 
 class UserAdderState:
@@ -20,21 +27,37 @@ class UserAdderState:
     async def addInfoFromMessage(self, message):
         # Check incoming info
         currentInfo = USERINFOS_LIST[len(self.infos)]
-        # TODO: Sanitize input information
         sanitized = ""
         if currentInfo[1] == "string":
-            # TODO: Verify that string ONLY contains letters and not special characters
+            if message.content.isalnum() == False:
+                await message.channel.send(":x:Wrong input retry only letters and numbers")
+                return True
             sanitized = "'" + message.content + "'"
-        elif currentInfo[1] == "int":
-            # TODO: Try to parse string to int
-            # Verify it is into bounds of currentInfo[3] and currentInfo[4]
-            # And save the int as string in infos
-            sanitized = message.content
+
+        elif currentInfo[1] == "int":           
+            try :
+                contentint = int(message.content)
+            except ValueError : 
+                await message.channel.send(":x:Wrong input retry only numbers")
+                return True   
+            if contentint < currentInfo[3] or contentint >= currentInfo[4]  :
+                await message.channel.send(":x:Wrong input out of range")
+                return True
+            sanitized = str(contentint)
+
         elif currentInfo[1] == "choice":
-            if message.content in currentInfo[3]:
-                sanitized = "'" + message.content + "'"
+            lowered=message.content.lower()
+            shortcuts = {
+                "elementalist": "elem",
+                "assassin": "assa",
+                "war": "warlord"
+            }
+            if lowered in shortcuts.keys():
+                lowered = shortcuts[lowered]
+            if lowered in currentInfo[3]:
+                sanitized = "'" + lowered + "'"
             else:
-                await message.channel.send("C pa dan " + str(currentInfo[3]))
+                await message.channel.send(":x:That class is not in the game" + str(currentInfo[3]))
                 return True
         else:
             await message.channel.send("Sorry on code avec des noobs")
@@ -45,28 +68,28 @@ class UserAdderState:
             self.saveToDB()
             del activeAddingUsers[self.authorID]
             return True
-        await self.printNextExpectation(message.channel)
+        await self.printNextExpectation(message.channel, message.author)
         return True
     
-    async def printNextExpectation(self, channel):
+    async def printNextExpectation(self, channel, author):
         currentInfo = USERINFOS_LIST[len(self.infos)]
-        await channel.send("> " + currentInfo[2])
+        await channel.send(f"{author.mention}" + currentInfo[2])
     
     def saveToDB(self):
         # "INSERT INTO user (uuid,"
         sqlReq = "INSERT INTO user(uuid, "
-        # name, u_gear, u_level, u_skill, u_class, r_red, r_orange, r_yellow, r_blue, r_green, r_purple
+        # name, u_gear, u_level, u_skill, u_class, r_red, r_orange, r_yellow, r_green, r_blue, r_purple
         sqlReq += ', '.join(map(lambda v: v[0], USERINFOS_LIST))
         # ") VALUES ('" + str(message.author.id) + "',
         sqlReq += ") VALUES ('" + str(self.authorID) + "', "
-        # '" + name.content +"', " + u_gear.content + ", " + u_level.content + ", " + u_skill.content + ", '" + u_class.content + "' , " + r_red.content + ", " + r_orange.content + ", " + r_yellow.content + ", " + r_blue.content + "," + r_green.content + ", " + r_purple.content + 
+        # '" + name.content +"', " + u_gear.content + ", " + u_level.content + ", " + u_skill.content + ", '" + u_class.content + "' , " + r_red.content + ", " + r_orange.content + ", " + r_yellow.content + ", " + r_green.content + "," + r_blue.content + ", " + r_purple.content + 
         sqlReq += ', '.join(self.infos)
         # ");")
         sqlReq += ");"
         print("on injecte: " + sqlReq)
         # TODO: uncomment it
-        # cursor.execute(sqlReq)
-        # connection.commit()
+        cursor.execute(sqlReq)
+        connection.commit()
 
 async def handleMessageForAddingUser(message):
     if message.author.id in activeAddingUsers.keys():
@@ -77,7 +100,7 @@ async def handleMessageForAddingUser(message):
 async def addCommand(message, argv, client):
     newUser = UserAdderState(message.author.id)
     activeAddingUsers[message.author.id] = newUser
-    await newUser.printNextExpectation(message.channel)
+    await newUser.printNextExpectation(message.channel, message.author)
 
 async def addCommand_old(message, argv, client):
     cursor.execute("SELECT uuid FROM user WHERE uuid = '" + str(message.author.id) + "';")
