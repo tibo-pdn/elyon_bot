@@ -54,7 +54,7 @@ async def updateCommand(message, argv, client):
         if updateMessage == "":
             updateMessage = f"Updated values for {message.author.mention}:\n```"
         updateMessage += f"{argv[i - 1]} = {sanitized}\n"
-        print("SQL: " + sqlReq)
+        #print("SQL: " + sqlReq)
         
         cursor.execute(sqlReq)
         print("[" + str(datetime.now()) + "] : <" + str(message.author) + "> : <" + str(sanitized) + "> : " + info[0] + " updated!")

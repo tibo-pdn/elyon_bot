@@ -32,7 +32,7 @@ def sanitizeUserInfo(info, value):
         except ValueError :
             return ["", "Wrong input retry only numbers"]
         if contentint < info[3] or contentint >= info[4]:
-            return ["", "Wrong input out of range"]
+            return ["", "Wrong input out of range : min `"+ str(info[3]) + "` max `" +str(info[4]) + "`"]
         return [str(contentint), None]
 
     elif info[1] == "choice":
@@ -40,7 +40,8 @@ def sanitizeUserInfo(info, value):
         shortcuts = {
             "elementalist": "elem",
             "assassin": "assa",
-            "war": "warlord"
+            "war": "warlord",
+            "gun": "gunner"
         }
         if lowered in shortcuts.keys():
             lowered = shortcuts[lowered]
@@ -92,8 +93,6 @@ class UserAdderState:
         sqlReq += ', '.join(self.infos)
         # ");")
         sqlReq += ");"
-        print("on injecte: " + sqlReq)
-        # TODO: uncomment it
         cursor.execute(sqlReq)
         connection.commit()
 
@@ -104,11 +103,18 @@ async def handleMessageForAddingUser(message):
 
 # &el add
 async def addCommand(message, argv, client):
-    # verify not existing
+    print("[" + str(datetime.now()) + "] : <" + str(message.author) + "> : Add Command")
+    cursor.execute("SELECT uuid FROM user WHERE uuid = '" + str(message.author.id) + "';")
+    result = cursor.fetchone()
+    if result is not None : 
+        await message.channel.send("User already registered")
+        return 0
     newUser = UserAdderState(message.author.id, client)
     activeAddingUsers[message.author.id] = newUser
     await newUser.printNextExpectation(message.channel, message.author)
 
+
+#a delete
 async def addCommand_old(message, argv, client):
     cursor.execute("SELECT uuid FROM user WHERE uuid = '" + str(message.author.id) + "';")
     result = cursor.fetchone()
