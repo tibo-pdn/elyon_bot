@@ -2,12 +2,13 @@ from config.db import cursor, connection
 from datetime import datetime
 import asyncio
 from .infoCommand import infoCommand
+from threading import Timer,Thread,Event
 
 activeAddingUsers = {}
 
 # [sqlname, type, asking sentence, metadata]
 USERINFOS_LIST = [
-    ["name", "string", "What is your main character name"],
+    ["name", "string", "You have 5 min to answer all questions\nWhat is your main character name"],
     ["u_gear", "int", "What is your main character Item Level", 0, 1500],
     ["u_level", "int", "What is your main character level", 0, 255],
     ["u_skill", "int", "What is your main character number of skill points", 0, 1500],
@@ -54,10 +55,13 @@ def sanitizeUserInfo(info, value):
 
 
 class UserAdderState:
-    def __init__(self, authorID, client):
-        self.authorID = authorID
+    def __init__(self, channel, author, client):
+        self.channel = channel
+        self.author = author
         self.infos = []
         self.client = client
+        self.timeouter = Timer(300, self.timeoutHandler)
+        self.timeouter.start()
     
     async def addInfoFromMessage(self, message):
         # Check incoming info
@@ -71,9 +75,10 @@ class UserAdderState:
         self.infos.append(sanitized)
         if len(self.infos) >= len(USERINFOS_LIST):
             # use all infos to add user in db
+            self.timeouter.cancel()
             self.saveToDB()
-            await infoCommand(message, ["&el", "info"], self.client)
-            del activeAddingUsers[self.authorID]
+            await infoCommand(message, ["&el", "info", "me"], self.client)
+            del activeAddingUsers[self.author.id]
             return True
         await self.printNextExpectation(message.channel, message.author)
         return True
@@ -88,13 +93,18 @@ class UserAdderState:
         # name, u_gear, u_level, u_skill, u_class, r_red, r_orange, r_yellow, r_green, r_blue, r_purple
         sqlReq += ', '.join(map(lambda v: v[0], USERINFOS_LIST))
         # ") VALUES ('" + str(message.author.id) + "',
-        sqlReq += ") VALUES ('" + str(self.authorID) + "', "
+        sqlReq += ") VALUES ('" + str(self.author.id) + "', "
         # '" + name.content +"', " + u_gear.content + ", " + u_level.content + ", " + u_skill.content + ", '" + u_class.content + "' , " + r_red.content + ", " + r_orange.content + ", " + r_yellow.content + ", " + r_green.content + "," + r_blue.content + ", " + r_purple.content + 
         sqlReq += ', '.join(self.infos)
         # ");")
         sqlReq += ");"
         cursor.execute(sqlReq)
         connection.commit()
+
+    def timeoutHandler(self):
+        #asyncio.run(self.channel.send("Trop lent, timeouted " + self.author.mention))
+        print(f"User {self.author.mention} got timed out when adding")
+        del activeAddingUsers[self.author.id]
 
 async def handleMessageForAddingUser(message):
     if message.author.id in activeAddingUsers.keys():
@@ -109,7 +119,7 @@ async def addCommand(message, argv, client):
     if result is not None : 
         await message.channel.send("User already registered")
         return 0
-    newUser = UserAdderState(message.author.id, client)
+    newUser = UserAdderState(message.channel, message.author, client)
     activeAddingUsers[message.author.id] = newUser
     await newUser.printNextExpectation(message.channel, message.author)
 

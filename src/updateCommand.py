@@ -63,7 +63,7 @@ async def updateCommand(message, argv, client):
         updateMessage += "```"
         connection.commit()
         await message.channel.send(updateMessage)
-        await infoCommand(message, ["&el", "info"], client)
+        await infoCommand(message, ["&el", "info", "me"], client)
     # for key, value in update.items():
     #     if argv[2] == key :
     #         attribute = update[key]

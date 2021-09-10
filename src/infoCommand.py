@@ -1,3 +1,4 @@
+from warnings import resetwarnings
 import discord
 from datetime import datetime
 from config.db import cursor, connection
@@ -32,15 +33,42 @@ async def printMessage(message, array):
 
 async def infoCommand(message, argv, client):
     print("Info command")
-    cursor.execute("SELECT uuid FROM user WHERE uuid = '" + str(message.author.id) + "';")
-    result = cursor.fetchone()
+    #cursor.execute("SELECT uuid FROM user WHERE uuid = '" + str(message.author.id) + "';")
+    #result = cursor.fetchone()
+#
+    #if result is None :
+    #    await message.channel.send("No account registered")
+    #    return -1
+    #else :
+    #    cursor.execute("SELECT uuid, name, u_gear, u_level, u_skill, u_class, r_red, r_orange, r_yellow, r_blue, r_green, r_purple FROM user WHERE uuid = '" + str(message.author.id) + "';")
+    #    result2 = formatString(cursor.fetchone())
+    #    print("[" + str(datetime.now()) + "] : <" + str(message.author) + "> :-->", result2)
+    #    await printMessage(message, result2)
+    #    return 0
 
-    if result is None :
-        await message.channel.send("No account registered")
+    if len(argv) < 3:
+        argv = ["&el", "info", "me"]
+        #await message.channel.send("Not enough arguments : expected `&el info` `me` or `name`")
+        #return -1
+    if len(argv) > 3:
+        await message.channel.send("Too many arguments : expected `&el info` `me` or `name`")
         return -1
+
+    if argv[2] == 'me' :
+        res = str(message.author.id)
+        sqlCondition = "uuid = '" + res + "'"
+    else:
+        res = argv[2]
+        sqlCondition = "name = '" + res + "'"
+
+    cursor.execute("SELECT name FROM user WHERE " + sqlCondition + ";")
+    result = cursor.fetchone()
+    if result is None :
+        await message.channel.send("No user registered")
+        return -1  
     else :
-        cursor.execute("SELECT uuid, name, u_gear, u_level, u_skill, u_class, r_red, r_orange, r_yellow, r_blue, r_green, r_purple FROM user WHERE uuid = '" + str(message.author.id) + "';")
+        
+        cursor.execute("SELECT uuid, name, u_gear, u_level, u_skill, u_class, r_red, r_orange, r_yellow, r_blue, r_green, r_purple FROM user WHERE " + sqlCondition + ";")
         result2 = formatString(cursor.fetchone())
         print("[" + str(datetime.now()) + "] : <" + str(message.author) + "> :-->", result2)
-        await printMessage(message, result2)
-        return 0
+        return await printMessage(message, result2)

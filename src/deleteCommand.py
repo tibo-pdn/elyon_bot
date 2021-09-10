@@ -1,7 +1,9 @@
 from config.db import cursor, connection
+import asyncio
+from datetime import datetime
 
 async def deleteCommand(message, argv, client):
-    print("Delete command")
+    print("[" + str(datetime.now()) + "] : <" + str(message.author) + "> : <" + str(message.content) + "> : delete Command")
 
     
     if len(argv) < 3:
