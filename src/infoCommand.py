@@ -14,6 +14,11 @@ def formatString(string):
             string[i] = int(string[i])
     return string
 
+#async def get_avatar(message, member:discord.Member):
+#    show_avat = discord.Embed(color = discord.Colord.dark_blue())
+#    show_avat.set_image(url='{}'.format(member.avatar_url))
+#    await message.channel.send(embed=show_avatar)
+
 async def printMessage(message, array):
     embed = discord.Embed(title = "Stats", description = f"{array[1]}'s Stats.<:blank:876773382304190484><:blank:876773382304190484><:blank:876773382304190484><:blank:876773382304190484> {array[5]}", color                               = 0x1D068F) #replace message.author by sql name in descritpion
     embed.set_author(name = message.author, icon_url = message.author.avatar_url)
@@ -32,24 +37,11 @@ async def printMessage(message, array):
     return 0
 
 async def infoCommand(message, argv, client):
-    print("Info command")
-    #cursor.execute("SELECT uuid FROM user WHERE uuid = '" + str(message.author.id) + "';")
-    #result = cursor.fetchone()
-#
-    #if result is None :
-    #    await message.channel.send("No account registered")
-    #    return -1
-    #else :
-    #    cursor.execute("SELECT uuid, name, u_gear, u_level, u_skill, u_class, r_red, r_orange, r_yellow, r_blue, r_green, r_purple FROM user WHERE uuid = '" + str(message.author.id) + "';")
-    #    result2 = formatString(cursor.fetchone())
-    #    print("[" + str(datetime.now()) + "] : <" + str(message.author) + "> :-->", result2)
-    #    await printMessage(message, result2)
-    #    return 0
+    print("[" + str(datetime.now()) + "] : <" + str(message.author) + "> : <" + str(message.content) + "> :Info command")
 
     if len(argv) < 3:
         argv = ["&el", "info", "me"]
-        #await message.channel.send("Not enough arguments : expected `&el info` `me` or `name`")
-        #return -1
+
     if len(argv) > 3:
         await message.channel.send("Too many arguments : expected `&el info` `me` or `name`")
         return -1

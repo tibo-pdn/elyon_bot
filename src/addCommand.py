@@ -10,7 +10,7 @@ activeAddingUsers = {}
 USERINFOS_LIST = [
     ["name", "string", "You have 5 min to answer all questions\nWhat is your main character name"],
     ["u_gear", "int", "What is your main character Item Level", 0, 1500],
-    ["u_level", "int", "What is your main character level", 0, 255],
+    ["u_level", "int", "What is your main character level", 0, 100],
     ["u_skill", "int", "What is your main character number of skill points", 0, 1500],
     ["u_class", "choice", "What is your main character class (slayer/elem/assa/warlord/gunner/mystic)", ["slayer", "elem", "assa", "warlord", "gunner", "mystic"]],
     ["r_red", "int", "What is your main character Assault rune number ", 0, 100],
@@ -32,7 +32,7 @@ def sanitizeUserInfo(info, value):
             contentint = int(value)
         except ValueError :
             return ["", "Wrong input retry only numbers"]
-        if contentint < info[3] or contentint >= info[4]:
+        if contentint < info[3] or contentint > info[4]:
             return ["", "Wrong input out of range : min `"+ str(info[3]) + "` max `" +str(info[4]) + "`"]
         return [str(contentint), None]
 

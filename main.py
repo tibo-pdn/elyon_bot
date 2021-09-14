@@ -23,7 +23,6 @@ async def handleMessageCommand(message):
         message.content = ' '.join(argv)
         await split_args(message, argv, client)
         return True
-    #print("[" + str(datetime.now()) + "] : <" + str(message.author) + "> : <" + str(argv) + "> : Add Command")
     return False
 
 @client.event
