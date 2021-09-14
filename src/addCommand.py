@@ -42,7 +42,8 @@ def sanitizeUserInfo(info, value):
             "elementalist": "elem",
             "assassin": "assa",
             "war": "warlord",
-            "gun": "gunner"
+            "gun": "gunner",
+            "slay": "slayer"
         }
         if lowered in shortcuts.keys():
             lowered = shortcuts[lowered]
@@ -103,7 +104,7 @@ class UserAdderState:
 
     def timeoutHandler(self):
         #asyncio.run(self.channel.send("Trop lent, timeouted " + self.author.mention))
-        print(f"User {self.author.mention} got timed out when adding")
+        print(f":x: User {self.author.mention} got timed out when adding")
         del activeAddingUsers[self.author.id]
 
 async def handleMessageForAddingUser(message):
@@ -117,7 +118,7 @@ async def addCommand(message, argv, client):
     cursor.execute("SELECT uuid FROM user WHERE uuid = '" + str(message.author.id) + "';")
     result = cursor.fetchone()
     if result is not None : 
-        await message.channel.send("User already registered")
+        await message.channel.send(":x: User already registered")
         return 0
     newUser = UserAdderState(message.channel, message.author, client)
     activeAddingUsers[message.author.id] = newUser

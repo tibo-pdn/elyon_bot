@@ -5,10 +5,10 @@ import asyncio
 
 async def listCommand(message, argv, client):
     if len(argv) < 3:
-        await message.channel.send("Not enough arguments : expected `&el list` `gs` / `name` / `class`")
+        await message.channel.send(":x: Not enough arguments : expected `&el list` `gs` / `name` / `class`")
         return -1
     if len(argv) > 3:
-        await message.channel.send("Too many arguments : expected `&el list` `gs` / `name` / `class`")
+        await message.channel.send(":x: Too many arguments : expected `&el list` `gs` / `name` / `class`")
         return -1
 
    
@@ -19,7 +19,7 @@ async def listCommand(message, argv, client):
     elif argv[2] == 'class' :
         cursor.execute("SELECT name, u_class, u_level, u_gear FROM user ORDER BY u_class ASC")
     else : 
-        return await message.channel.send("Error non existing argument")
+        return await message.channel.send(":x: Wrong keyword `" + str(argv[2]) + "`")
     print("[" + str(datetime.now()) + "] : <" + str(message.author) + "> : <" + str(message.content) + "> : List command")
     fetched_values = cursor.fetchall()
     fetched_values.insert(0, ["name", "class", "level", "gs"])
@@ -45,7 +45,7 @@ async def listCommand(message, argv, client):
             msgStr += "\n" if j == len(fetched_values[i]) - 1 else " - "
     msgStr += "```"
     embed = discord.Embed(title="", description="", color=0x1D068F)
-    embed.set_author(name="List by GS", icon_url=client.user.avatar_url)
+    embed.set_author(name="List by " + str(argv[2]), icon_url=client.user.avatar_url)
     embed.add_field(name="\u200B", value=msgStr, inline=False)
     await message.channel.send(embed = embed) 
     return 0

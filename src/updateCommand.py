@@ -7,7 +7,7 @@ from .infoCommand import infoCommand
 # 1 u_gear
 # 2 u_level
 # 3 u_skill
-# 4 u_class
+# 4 u_class can add class if wanted in the aliases
 # 5 r_red
 # 6 r_orange
 # 7 r_yellow
@@ -21,7 +21,6 @@ FIELD_ALIAS = {
     'lvl' : 2,
     'level' : 2,
     'sp' : 3,
-    #'klass' : 4,
     'red' : 5,
     'orange' : 6,
     'yellow' : 7,
@@ -40,7 +39,7 @@ async def updateCommand(message, argv, client):
     for i in range(len(argv))[3::2]:
         key = argv[i - 1]
         if not key in FIELD_ALIAS.keys():
-            await message.channel.send("Wrong keyword " + key)
+            await message.channel.send(":x: Wrong keyword `" + key + "`")
             continue
 
         info = USERINFOS_LIST[FIELD_ALIAS[key]]
@@ -64,25 +63,3 @@ async def updateCommand(message, argv, client):
         connection.commit()
         await message.channel.send(updateMessage)
         await infoCommand(message, ["&el", "info", "me"], client)
-    # for key, value in update.items():
-    #     if argv[2] == key :
-    #         attribute = update[key]
-    #         updated_value = argv[3]
-    #         if key == 'name':
-    #             cursor.execute("UPDATE user SET " + str(attribute) + " = '" + str(updated_value) + "' WHERE uuid = '" + str(message.author.id) + "';")
-    #             print("[" + str(datetime.now()) + "] : <" + str(message.author) + "> : <" + str(updated_value) + "> : name updated!")
-    #         else:
-    #             tmp = updated_value
-    #             try :
-    #                 updated_value = int(updated_value)
-    #             except ValueError :
-    #                 await message.channel.send("Wrong input type, number expected.")
-    #                 return -1
-    #             cursor.execute("UPDATE user SET " + str(attribute) + " = " + str(updated_value) + " WHERE uuid = '" + str(message.author.id) + "';")
-    #             print("Update command")
-    #             print("[" + str(datetime.now()) + "] : <" + str(message.author) + "> : <" + str(attribute) + "> : <" + str(updated_value) + "> : updated!")
-    #         connection.commit()
-    #         return 0
-    # await message.channel.send("Wrong keyword")
-    # print("Update command")
-    # return 0
