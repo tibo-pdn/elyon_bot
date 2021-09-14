@@ -14,7 +14,7 @@ client = discord.Client()
 @client.event
 async def on_ready():
     print("Bot is ready !")
-
+    await client.change_presence(activity=discord.Activity(type=discord.ActivityType.listening, name="&el help"))
 async def handleMessageCommand(message):
     argv = message.content.split()
     if len(argv) == 0:
