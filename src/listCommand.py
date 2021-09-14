@@ -11,13 +11,16 @@ async def listCommand(message, argv, client):
         await message.channel.send("Too many arguments : expected `&el list` `gs` / `name` / `class`")
         return -1
 
-    print("[" + str(datetime.now()) + "] : <" + str(message.author) + "> : <" + str(message.content) + "> : List command")
+   
     if argv[2] == 'gs' :
         cursor.execute("SELECT name, u_class, u_level, u_gear FROM user ORDER BY u_gear DESC")
-    if argv[2] == 'name' :
+    elif argv[2] == 'name' :
         cursor.execute("SELECT name, u_class, u_level, u_gear FROM user ORDER BY name ASC")
-    if argv[2] == 'class' :
+    elif argv[2] == 'class' :
         cursor.execute("SELECT name, u_class, u_level, u_gear FROM user ORDER BY u_class ASC")
+    else : 
+        return await message.channel.send("Error non existing argument")
+    print("[" + str(datetime.now()) + "] : <" + str(message.author) + "> : <" + str(message.content) + "> : List command")
     fetched_values = cursor.fetchall()
     fetched_values.insert(0, ["name", "class", "level", "gs"])
     column_sizes= [0] * len(fetched_values[0])
@@ -44,7 +47,7 @@ async def listCommand(message, argv, client):
     embed = discord.Embed(title="", description="", color=0x1D068F)
     embed.set_author(name="List by GS", icon_url=client.user.avatar_url)
     embed.add_field(name="\u200B", value=msgStr, inline=False)
-    await message.channel.send(embed = embed)
+    await message.channel.send(embed = embed) 
     return 0
 
 
