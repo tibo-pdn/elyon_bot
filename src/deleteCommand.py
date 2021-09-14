@@ -7,10 +7,10 @@ async def deleteCommand(message, argv, client):
 
     
     if len(argv) < 3:
-        await message.channel.send("Not enough arguments : expected `&el delete id`")
+        await message.channel.send("Not enough arguments : expected `&el delete` `me` / `id`")
         return -1
     if len(argv) > 3:
-        await message.channel.send("Too many arguments : expected `&el delete id`")
+        await message.channel.send("Too many arguments : expected `&el delete` `me` / `id`")
         return -1
 
     if argv[2] == 'me' :
