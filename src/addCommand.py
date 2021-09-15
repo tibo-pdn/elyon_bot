@@ -8,7 +8,7 @@ activeAddingUsers = {}
 
 # [sqlname, type, asking sentence, metadata]
 USERINFOS_LIST = [
-    ["name", "string", "You have 5 min to answer all questions\nWhat is your main character name"],
+    ["name", "string", "You have 5 min to answer all questions\nWhat is your main character name", 3, 20],
     ["u_gear", "int", "What is your main character Item Level", 0, 1500],
     ["u_level", "int", "What is your main character level", 0, 100],
     ["u_skill", "int", "What is your main character number of skill points", 0, 1500],
@@ -25,6 +25,8 @@ def sanitizeUserInfo(info, value):
     if info[1] == "string":
         if value.isalnum() == False:
             return ["", "Wrong input retry only letters and numbers"]
+        if len(value) < info[3] or len(value) > info[4]:
+            return ["", "Wrong input out of range : min `"+ str(info[3]) + "` max `" +str(info[4]) + "`"]
         return ["'" + value + "'", None]
 
     elif info[1] == "int":           

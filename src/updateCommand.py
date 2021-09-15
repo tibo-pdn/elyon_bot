@@ -31,7 +31,7 @@ FIELD_ALIAS = {
 
 async def updateCommand(message, argv, client):
     if len(argv) < 4:
-        await message.channel.send("Not enough arguments : expected `&el update field1 value1 field2 value2 ...`")
+        await message.channel.send(":x: Not enough arguments : expected `&el update field1 value1 field2 value2 ...`")
         await message.channel.send("expected fields `" + '`, `'.join(FIELD_ALIAS) + "`")
         return -1
     
