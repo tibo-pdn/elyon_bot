@@ -13,7 +13,7 @@ async def deleteCommand(message, argv, client):
         await message.channel.send("Too many arguments : expected `&el delete` `me` / `id`")
         return -1
 
-    if argv[2] == 'me' :
+    if argv[2] == 'me' or argv[2] == str(message.author.id):
         id = str(message.author.id)
     else:
         if str(message.author.id) == "194770593474674688" or str(message.author.id) == "166153934841446400": 

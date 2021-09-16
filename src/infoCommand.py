@@ -20,19 +20,19 @@ def formatString(string):
 #    await message.channel.send(embed=show_avatar)
 
 async def printMessage(message, array):
-    embed = discord.Embed(title = "Stats", description = f"{array[1]}'s Stats.<:blank:876773382304190484><:blank:876773382304190484><:blank:876773382304190484><:blank:876773382304190484> {array[5]}", color                               = 0x1D068F) #replace message.author by sql name in descritpion
+    embed = discord.Embed(title = "Stats", description = f"{array[1]}'s Stats.<:Blank:876906223977513011><:Blank:876906223977513011><:Blank:876906223977513011><:Blank:876906223977513011> {array[5]}", color                               = 0x1D068F) #replace message.author by sql name in descritpion
     embed.set_author(name = message.author, icon_url = message.author.avatar_url)
     embed.set_thumbnail(url = message.author.avatar_url)
     embed.add_field(name = "\u200B", value = "\u200B", inline = False)
-    embed.add_field(name = ":trophy: Gearscore<:blank:876773382304190484><:blank:876773382304190484><:blank:876773382304190484>", value = array[2], inline = True)
-    embed.add_field(name = ":crossed_swords: level<:blank:876773382304190484><:blank:876773382304190484><:blank:876773382304190484><:blank:876773382304190484>", value = array[3], inline = True)
+    embed.add_field(name = ":trophy: Gearscore<:Blank:876906223977513011><:Blank:876906223977513011><:Blank:876906223977513011>", value = array[2], inline = True)
+    embed.add_field(name = ":crossed_swords: level<:Blank:876906223977513011><:Blank:876906223977513011><:Blank:876906223977513011><:Blank:876906223977513011>", value = array[3], inline = True)
     embed.add_field(name = ":medal: SP", value = array[4], inline = True)
-    embed.add_field(name = "<:red_rune:883416331905560616> Assault", value = array[6], inline = True)
-    embed.add_field(name = "<:orange_rune:883416331616145419> Control", value = array[7], inline = True)
-    embed.add_field(name = "<:yellow_rune:883416331876180038> Fate", value = array[8], inline = True)
-    embed.add_field(name = "<:blue_rune:883416331884584970> Protection", value = array[9], inline = True)
-    embed.add_field(name = "<:green_rune:883416331830067220> Support", value = array[10], inline = True)
-    embed.add_field(name = "<:purple_rune:883416331989422121> Awakening", value = array[11], inline = True)
+    embed.add_field(name = "<:red_rune:880084950647463959> Assault", value = array[6], inline = True)
+    embed.add_field(name = "<:orange_rune:880084950689382501>Control", value = array[7], inline = True)
+    embed.add_field(name = "<:yellow_rune:880084950769086484> Fate", value = array[8], inline = True)
+    embed.add_field(name = "<:green_rune:880084950588727297> Support", value = array[10], inline = True)
+    embed.add_field(name = "<:blue_rune:880084950743941170> Protection", value = array[9], inline = True)
+    embed.add_field(name = "<:purple_rune:880084950697803857>Awakening", value = array[11], inline = True)
     await message.channel.send(embed = embed)
     return 0
 
@@ -43,7 +43,7 @@ async def infoCommand(message, argv, client):
         argv = ["&el", "info", "me"]
 
     if len(argv) > 3:
-        await message.channel.send("Too many arguments : expected `&el info` `me` or `name`")
+        await message.channel.send(":x: Too many arguments : expected `&el info` `me` or `name`")
         return -1
 
     if argv[2] == 'me' :

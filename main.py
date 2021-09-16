@@ -5,7 +5,7 @@ from datetime import datetime
 from src.split import split_args
 from src.addCommand import handleMessageForAddingUser
 from dotenv import load_dotenv
-
+import sys
 load_dotenv('config/.env')
 token = os.getenv('TOKEN')
 
@@ -39,3 +39,4 @@ async def on_message(message):
         #    print('fuck that ' + str(message.author))
 
 client.run(token)
+
