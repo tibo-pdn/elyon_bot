@@ -16,7 +16,10 @@ async def deleteCommand(message, argv, client):
     if argv[2] == 'me' :
         id = str(message.author.id)
     else:
-        id = argv[2]
+        if str(message.author.id) == "194770593474674688" or str(message.author.id) == "166153934841446400": 
+            id = argv[2]
+        else :
+            return await message.channel.send(":x: Permission denied")
 
     cursor.execute("SELECT uuid FROM user WHERE uuid = '" + id + "';")
     result = cursor.fetchone()

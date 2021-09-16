@@ -24,18 +24,18 @@ USERINFOS_LIST = [
 def sanitizeUserInfo(info, value):
     if info[1] == "string":
         if value.isalnum() == False:
-            return ["", "Wrong input retry only letters and numbers"]
+            return ["", ":x: Wrong input retry only letters and numbers"]
         if len(value) < info[3] or len(value) > info[4]:
-            return ["", "Wrong input out of range : min `"+ str(info[3]) + "` max `" +str(info[4]) + "`"]
+            return ["", ":x: Wrong input out of range : min `"+ str(info[3]) + "` max `" +str(info[4]) + "`"]
         return ["'" + value + "'", None]
 
     elif info[1] == "int":           
         try:
             contentint = int(value)
         except ValueError :
-            return ["", "Wrong input retry only numbers"]
+            return ["", ":x: Wrong input retry only numbers"]
         if contentint < info[3] or contentint > info[4]:
-            return ["", "Wrong input out of range : min `"+ str(info[3]) + "` max `" +str(info[4]) + "`"]
+            return ["", ":x: Wrong input out of range : min `"+ str(info[3]) + "` max `" +str(info[4]) + "`"]
         return [str(contentint), None]
 
     elif info[1] == "choice":
@@ -52,7 +52,7 @@ def sanitizeUserInfo(info, value):
         if lowered in info[3]:
             return ["'" + lowered + "'", None]
         else:
-            return ["", "That class is not in the game " + str(info[3])]
+            return ["", ":x: That class is not in the game " + str(info[3])]
     else:
         return [value, "Sorry on code avec des noobs"]
 
@@ -71,7 +71,7 @@ class UserAdderState:
         currentInfo = USERINFOS_LIST[len(self.infos)]
         sanitized, error = sanitizeUserInfo(currentInfo, message.content)
         if error != None:
-            await message.channel.send(":x: " + error)
+            await message.channel.send(error)
             return True
 
         # Add info to our table
