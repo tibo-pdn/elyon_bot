@@ -22,11 +22,18 @@ FIELD_ALIAS = {
     'level' : 2,
     'sp' : 3,
     'red' : 5,
+    'assault' : 5,
     'orange' : 6,
+    'control' : 6,
     'yellow' : 7,
+    'fate' : 7,
     'green' : 8,
+    'support' : 8,
     'blue' : 9,
-    'purple' : 10
+    'protection' : 9,
+    'purple' : 10,
+    'awakening' : 10
+
 }
 
 async def updateCommand(message, argv, client):
@@ -38,6 +45,7 @@ async def updateCommand(message, argv, client):
     updateMessage = ""
     for i in range(len(argv))[3::2]:
         key = argv[i - 1]
+        key = key.lower()
         if not key in FIELD_ALIAS.keys():
             await message.channel.send(":x: Wrong keyword `" + key + "`")
             continue
